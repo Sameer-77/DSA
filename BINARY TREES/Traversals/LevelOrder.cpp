@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class TreeNode
+{
+public:
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x)
+    {
+        this->val = x;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+TreeNode *createBTree(int x)
+{
+    if (x == -1)
+    {
+        return NULL;
+    }
+    TreeNode *node = new TreeNode(x);
+    int data;
+    cout << "Enter the left child of " << x << " (-1 if no child) : ";
+    cin >> data;
+    node->left = createBTree(data);
+    cout << "Enter the right child of " << x << " (-1 if no child) : ";
+    cin >> data;
+    node->right = createBTree(data);
+    return node;
+}
+
+int main()
+{
+    int x;
+    cout << "Enter the root value : ";
+    cin >> x;
+    TreeNode *root = createBTree(x);
+    vector<int> levelOrder;
+    queue<TreeNode *> q;
+    q.push(root);
+    while (!q.empty())
+    {
+        TreeNode *node = q.front();
+        q.pop();
+        levelOrder.push_back(node->val);
+        if (node->left)
+        {
+            q.push(node->left);
+        }
+        if (node->right)
+        {
+            q.push(node->right);
+        }
+    }
+
+    cout << "Level Order : ";
+    for (int i = 0; i < levelOrder.size(); i++)
+    {
+        cout << levelOrder[i] << " ";
+    }
+}
